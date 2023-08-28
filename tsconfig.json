@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "declaration": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+
+    "outDir": "./dist/",
+    "rootDir": "./src/scrollbar",
+    "baseUrl": "./src/scrollbar"
+  },
+  "include": ["./src/scrollbar"],
+  "references": [{ "path": "./src/scrollbar/tsconfig.lib.json" }],
+  "tsc-alias": {
+    "verbose": true,
+    "debug": true
+  }
+}

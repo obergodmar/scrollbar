@@ -1,0 +1,71 @@
+{
+  "name": "@obergodmar/scrollbar",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "Vitaly Kogogin <obergodmar@gmail.com>",
+  "description": "A small React library that replaces the SimpleBar functionality",
+  "keywords": [
+    "react",
+    "scrollbar",
+    "ui",
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/obergodmar/scrollbar"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.com/"
+  },
+  "bugs": "https://github.com/obergodmar/scrollbar/issues",
+  "homepage": "https://github.com/obergodmar/scrollbar",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "start": "vite",
+    "ssr": "node server.mjs",
+    "clean": "rm -rf dist",
+    "compile": "tsc --build --clean && tsc --build --force",
+    "postcss": "cross-env NODE_ENV=production postcss './src/**/*.css' --base ./src/scrollbar/ --dir ./dist/ --no-map",
+    "build": "npm run clean && npm run compile && tsc-alias && npm run postcss",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings"
+  },
+  "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "cross-env": "^7.0.3",
+    "cssnano": "^6.0.1",
+    "cssnano-preset-lite": "^3.0.0",
+    "eslint": "^8.45.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "express": "^4.18.2",
+    "postcss": "^8.4.29",
+    "postcss-cli": "^10.1.0",
+    "postcss-prefixer": "^3.0.0",
+    "prettier": "3.0.2",
+    "tsc-alias": "^1.8.7",
+    "typescript": "5.1.6",
+    "vite": "^4.4.5",
+    "vite-tsconfig-paths": "^4.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

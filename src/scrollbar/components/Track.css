@@ -1,0 +1,31 @@
+.sbarTrack {
+  width: 11px;
+  height: 11px;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .sbarTrack {
+    pointer-events: none;
+  }
+}
+
+.sbarTrack::before {
+  content: '';
+  position: absolute;
+}
+
+.sbarTrackY::before {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 100%;
+}
+
+.sbarTrackX::before {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  width: 100%;
+}
