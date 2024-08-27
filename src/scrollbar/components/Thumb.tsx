@@ -112,6 +112,7 @@ export const Thumb = forwardRef<XThumb | YThumb, Props>(
           return;
         }
 
+        event.preventDefault();
         event.stopPropagation();
 
         const { clientX, clientY } = event;
