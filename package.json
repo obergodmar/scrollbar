@@ -29,6 +29,7 @@
     "*.css"
   ],
   "scripts": {
+		"preinstall": "npx only-allow pnpm",
     "start": "vite dev",
     "ssr": "node server.mjs",
     "clean": "rimraf --glob dist",
