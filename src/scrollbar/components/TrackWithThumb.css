@@ -1,12 +1,28 @@
 .sbarTrack {
+  position: absolute;
   width: 11px;
   height: 11px;
+  pointer-events: none;
 }
 
 @media (hover: none) and (pointer: coarse) {
   .sbarTrack {
     pointer-events: none;
   }
+}
+
+.sbarTrackX {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 11px;
+}
+
+.sbarTrackY {
+  top: 0;
+  right: 0;
+  width: 11px;
+  height: 100%;
 }
 
 .sbarTrack::before {

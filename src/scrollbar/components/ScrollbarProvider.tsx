@@ -3,6 +3,7 @@ import {
   forwardRef,
   HTMLAttributes,
   memo,
+  MouseEvent,
   MutableRefObject,
   ReactNode,
   useCallback,
@@ -15,13 +16,15 @@ import {
 import { Content } from 'components/Content';
 import { Cropped } from 'components/Cropped';
 import { Scrollable } from 'components/Scrollable';
-import { XThumbMethods, YThumbMethods } from 'components/Thumb';
-import { Track } from 'components/Track';
+import {
+  TracksAndThumbs,
+  TracksAndThumbsRef,
+} from 'components/TracksAndThumbs';
 import {
   ResizeTargetCallback,
   useResizeObserver,
 } from 'hooks/useResizeObserver';
-import { ScrollbarOptions } from 'options';
+import { Axis, ScrollbarOptions } from 'options';
 import { applyContentStyles } from 'utils/applyContentStyles';
 import { applyRefValueMutation } from 'utils/applyRefMutation';
 import { applyScrollableStyles } from 'utils/applyScrollableStyles';
@@ -122,7 +125,7 @@ export const ScrollbarProvider = memo(
       const [xTrackNeeded, setXTrackNeeded] = useState(true);
       const [yTrackNeeded, setYTrackNeeded] = useState(true);
 
-      const $thumbsMethods = useRef<YThumbMethods & XThumbMethods>(null);
+      const $tracksAndThumbs = useRef<TracksAndThumbsRef>(null);
 
       const $containerSizesRef = useRef({
         content: {
@@ -165,8 +168,8 @@ export const ScrollbarProvider = memo(
               barWidth < cropped.offsetWidth,
           );
 
-          $thumbsMethods.current?.setWidth?.(barWidth);
-          $thumbsMethods.current?.setX?.(x);
+          $tracksAndThumbs.current?.x?.thumb?.setWidth?.(barWidth);
+          $tracksAndThumbs.current?.x?.thumb?.setX?.(x);
         }
 
         if (overflowY !== 'hidden') {
@@ -182,8 +185,8 @@ export const ScrollbarProvider = memo(
               barHeight < cropped.offsetHeight,
           );
 
-          $thumbsMethods.current?.setHeight?.(barHeight);
-          $thumbsMethods.current?.setY?.(y);
+          $tracksAndThumbs.current?.y?.thumb?.setHeight?.(barHeight);
+          $tracksAndThumbs.current?.y?.thumb?.setY?.(y);
         }
       });
 
@@ -199,10 +202,41 @@ export const ScrollbarProvider = memo(
         }
       }, []);
 
+      const onMouseDown = useCallback(
+        (axis: Axis, event: MouseEvent<HTMLDivElement>) => {
+          const { track, thumb } = $tracksAndThumbs.current?.[axis] || {};
+
+          if (
+            !(event.target instanceof Node) ||
+            !$scrollableRef.current?.contains(event.target)
+          ) {
+            return;
+          }
+
+          if (track?.isHoveredOver?.(event.clientX, event.clientY)) {
+            event.preventDefault();
+
+            if (thumb?.isHoveredOver?.(event.clientX, event.clientY)) {
+              thumb?.onDragStart?.(event.clientX, event.clientY);
+            } else {
+              track?.onTrackClick(event.clientX, event.clientY);
+            }
+          }
+        },
+        [],
+      );
+
       const $scrollableRef = useRef<HTMLDivElement | null>(null);
       const $scrollablePropsWithRef = useMemo<HTMLAttributes<HTMLDivElement>>(
         () => ({
           ...scrollableProps,
+          onMouseDown: (event: MouseEvent<HTMLDivElement>) => {
+            scrollableProps?.onMouseDown?.(event);
+
+            onMouseDown('x', event);
+            onMouseDown('y', event);
+          },
+
           style: {
             ...applyScrollableStyles(nativeBarSize, { overflowY, overflowX }),
             ...scrollableProps?.style,
@@ -214,7 +248,7 @@ export const ScrollbarProvider = memo(
             setNativeBarSize(getNativeScrollbarWidth(node));
           },
         }),
-        [nativeBarSize, overflowX, overflowY, scrollableProps],
+        [nativeBarSize, onMouseDown, overflowX, overflowY, scrollableProps],
       );
 
       const $contentRef = useRef<HTMLDivElement | null>(null);
@@ -376,8 +410,8 @@ export const ScrollbarProvider = memo(
             </Scrollable>
           )}
 
-          <Track
-            ref={$thumbsMethods}
+          <TracksAndThumbs
+            ref={$tracksAndThumbs}
             overflowX={overflowX}
             overflowY={overflowY}
             forceVisible={forceVisible}

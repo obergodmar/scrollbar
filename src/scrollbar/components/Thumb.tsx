@@ -1,7 +1,6 @@
 import {
   Dispatch,
   forwardRef,
-  MouseEvent as ReactMouseEvent,
   RefObject,
   SetStateAction,
   useCallback,
@@ -14,15 +13,15 @@ import {
 import './Thumb.css';
 import { Axis } from 'options';
 import { cx } from 'utils/cx';
+import { isHoveredOver } from 'utils/isHoveredOver';
 
-export type YThumbMethods = {
-  setHeight: Dispatch<SetStateAction<number>>;
-  setY: Dispatch<SetStateAction<number>>;
-};
-
-export type XThumbMethods = {
+export type ThumbMethods = {
   setWidth: Dispatch<SetStateAction<number>>;
+  setHeight: Dispatch<SetStateAction<number>>;
   setX: Dispatch<SetStateAction<number>>;
+  setY: Dispatch<SetStateAction<number>>;
+  onDragStart: (clientX: number, clientY: number) => void;
+  isHoveredOver: (clientX: number, clientY: number) => void;
 };
 
 type Props = {
@@ -32,10 +31,9 @@ type Props = {
 
 type WithRef<Type> = Type & { ref: RefObject<HTMLDivElement | null> };
 
-export type XThumb = WithRef<XThumbMethods>;
-export type YThumb = WithRef<YThumbMethods>;
+export type ThumbRef = WithRef<ThumbMethods>;
 
-export const Thumb = forwardRef<XThumb | YThumb, Props>(
+export const Thumb = forwardRef<ThumbRef, Props>(
   ({ axis, dispatchScrollAction }, $thumb) => {
     const [height, setHeight] = useState(0);
     const [y, setY] = useState(0);
@@ -50,23 +48,6 @@ export const Thumb = forwardRef<XThumb | YThumb, Props>(
     $thumbSize.current = { width, height };
 
     const $thumbRef = useRef<HTMLDivElement>(null);
-
-    useImperativeHandle(
-      $thumb,
-      () => ({
-        ...(axis === 'x'
-          ? {
-              setX,
-              setWidth,
-            }
-          : {
-              setHeight,
-              setY,
-            }),
-        ref: $thumbRef,
-      }),
-      [axis],
-    );
 
     const $dragStart = useRef({ x: 0, y: 0 });
 
@@ -106,16 +87,12 @@ export const Thumb = forwardRef<XThumb | YThumb, Props>(
     }, [onDragMove]);
 
     const onDragStart = useCallback(
-      (event: ReactMouseEvent<HTMLDivElement>) => {
+      (clientX: number, clientY: number) => {
         const thumb = $thumbRef.current;
         if (!thumb) {
           return;
         }
 
-        event.preventDefault();
-        event.stopPropagation();
-
-        const { clientX, clientY } = event;
         const { left, top } = thumb.getBoundingClientRect();
 
         $dragStart.current[axis] =
@@ -142,10 +119,24 @@ export const Thumb = forwardRef<XThumb | YThumb, Props>(
       };
     }, [x, y]);
 
+    useImperativeHandle(
+      $thumb,
+      () => ({
+        setX,
+        setWidth,
+        setHeight,
+        setY,
+        onDragStart,
+        isHoveredOver: isHoveredOver($thumbRef),
+        ref: $thumbRef,
+      }),
+      [onDragStart],
+    );
+
     return (
       <div
         ref={$thumbRef}
-        onMouseDown={onDragStart}
+        data-scrollbar={`thumb thumb${axis.toUpperCase()}`}
         style={{
           position: 'absolute',
           ...(axis === 'x'
@@ -167,7 +158,6 @@ export const Thumb = forwardRef<XThumb | YThumb, Props>(
           dragging && 'sbarThumb--dragging',
           scrolling && 'sbarThumb--scrolling',
         )}
-        data-scrollbar="thumb"
       />
     );
   },

@@ -1,10 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { ScrollableContent } from './ScrollableContent';
 import { ScrollbarProvider } from './scrollbar';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container!);
+
+root.render(
   <React.StrictMode>
     <div
       style={{
@@ -30,5 +33,4 @@ ReactDOM.render(
       </ScrollbarProvider>
     </div>
   </React.StrictMode>,
-  document.getElementById('root')!,
 );

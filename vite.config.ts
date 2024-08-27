@@ -12,6 +12,7 @@ export default defineConfig({
 
     viteTsConfigPaths({
       root: './',
+      parseNative: true,
     }),
   ],
 });
