@@ -15,7 +15,9 @@ export function useResizeObserver(
     new Map(),
   );
 
-  const $containerCallback = useRef<ResizeContainerCallback | undefined>(undefined);
+  const $containerCallback = useRef<ResizeContainerCallback | undefined>(
+    undefined,
+  );
   useEffect(() => {
     $containerCallback.current = containerCallback;
   });
