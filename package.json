@@ -1,6 +1,6 @@
 {
   "name": "@obergodmar/scrollbar",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "MIT",
   "author": "Vitaly Kogogin <obergodmar@gmail.com>",
   "description": "A small React library that replaces the SimpleBar functionality",
