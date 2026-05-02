@@ -9,6 +9,7 @@ jobs:
   release:
     name: Build and Publish to npm
     runs-on: ubuntu-latest
+    environment: NPM_TOKEN
     permissions:
       contents: read
       id-token: write
@@ -44,6 +45,4 @@ jobs:
         run: pnpm build
 
       - name: Publish
-        run: pnpm publish --no-git-checks --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm publish --no-git-checks --access public --provenance
