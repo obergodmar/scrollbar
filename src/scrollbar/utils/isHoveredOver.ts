@@ -1,7 +1,7 @@
 import { RefObject } from 'react';
 
 export const isHoveredOver =
-  ($ref: RefObject<HTMLDivElement>) => (clientX: number, clientY: number) => {
+  ($ref: RefObject<HTMLDivElement | null>) => (clientX: number, clientY: number) => {
     const element = $ref.current;
     if (!element) {
       return;

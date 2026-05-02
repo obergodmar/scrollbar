@@ -10,13 +10,15 @@ export type ResizeObserveFn = (
 export function useResizeObserver(
   containerCallback?: ResizeContainerCallback,
 ): { observe: ResizeObserveFn } {
-  const $resizeObserver = useRef<ResizeObserver>();
+  const $resizeObserver = useRef<ResizeObserver | undefined>(undefined);
   const $targetCallbacks = useRef<Map<Element, ResizeTargetCallback>>(
     new Map(),
   );
 
-  const $containerCallback = useRef<ResizeContainerCallback>();
-  $containerCallback.current = containerCallback;
+  const $containerCallback = useRef<ResizeContainerCallback | undefined>(undefined);
+  useEffect(() => {
+    $containerCallback.current = containerCallback;
+  });
 
   const startObserver = useCallback(() => {
     const entriesBuffer = new Map<Element, ResizeObserverEntry>();
