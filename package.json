@@ -59,6 +59,7 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "eslint-plugin-simple-import-sort": "^13.0.0",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.4.1",
     "globals": "^17.6.0",
     "postcss": "^8.5.13",
     "postcss-cli": "^11.0.1",

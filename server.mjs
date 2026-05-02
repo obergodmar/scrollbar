@@ -1,4 +1,5 @@
 import express from 'express';
+import { rateLimit } from 'express-rate-limit';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -16,7 +17,9 @@ async function createServer() {
 
   app.use(vite.middlewares);
 
-  app.use('/{*splat}', async (req, res, next) => {
+  const limiter = rateLimit({ windowMs: 60_000, limit: 120 });
+
+  app.use('/{*splat}', limiter, async (req, res, next) => {
     const url = req.originalUrl;
 
     try {
