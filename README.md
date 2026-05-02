@@ -106,7 +106,10 @@ type RenderFunc = (props: {
   contentProps: PropsWithRef<RefUnionType>;
 }) => ReactNode;
 
-export type Props = Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'children' | 'ref'> & {
+export type Props = Omit<
+  DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+  'children' | 'ref'
+> & {
   /**
    * Props for the Scrollable element (layer 2)
    */
