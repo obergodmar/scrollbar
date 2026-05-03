@@ -38,6 +38,7 @@
     "clean": "rimraf --glob dist",
     "typecheck": "tsc --noEmit",
     "build": "pnpm run clean && vite build",
+    "build:demo": "vite build --config vite.demo.config.ts",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "lint": "oxlint --fix",
