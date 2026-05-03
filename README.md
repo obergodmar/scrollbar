@@ -1,5 +1,7 @@
 # Scrollbar
 
+[![Release](https://github.com/obergodmar/scrollbar/actions/workflows/release.yml/badge.svg)](https://github.com/obergodmar/scrollbar/actions/workflows/release.yml)
+
 - [Options](#options)
 - [Props](#props)
 - [Usage](#usage)
