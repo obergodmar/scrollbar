@@ -1,6 +1,6 @@
 {
   "name": "@dinastro/scrollbar",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "license": "MIT",
   "author": "Vitaly Kogogin <obergodmar@gmail.com>",
   "description": "A small React library that replaces the SimpleBar functionality",
@@ -15,7 +15,9 @@
     "url": "git+https://github.com/obergodmar/scrollbar.git"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.com/"
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
   },
   "bugs": "https://github.com/obergodmar/scrollbar/issues",
   "homepage": "https://github.com/obergodmar/scrollbar",
@@ -50,7 +52,7 @@
     "@types/express": "^5.0.6",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react-swc": "^4.3.0",
+    "@vitejs/plugin-react": "^6.0.1",
     "cssnano": "^7.1.8",
     "cssnano-preset-lite": "^4.0.6",
     "express": "^5.2.1",
@@ -70,6 +72,10 @@
   "pnpm": {
     "overrides": {
       "yaml": ">=2.8.3"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "esbuild"
+    ]
   }
 }
